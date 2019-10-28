@@ -17,3 +17,5 @@ Stop application:
 ```
 make stop
 ```
+
+Now application is available at http://localhost:8080
