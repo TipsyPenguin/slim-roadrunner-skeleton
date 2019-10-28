@@ -9,6 +9,8 @@ cp .env.orig .env
 make init
 ```
 
+Now application is available at http://localhost:8080
+
 Next time to run the application you only need to run the command:
 ```
 make up
@@ -17,5 +19,3 @@ Stop application:
 ```
 make stop
 ```
-
-Now application is available at http://localhost:8080
