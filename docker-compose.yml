@@ -1,0 +1,51 @@
+version: '3.3'
+
+networks:
+  backend-network:
+    driver: bridge
+
+services:
+  roadrunner:
+    build:
+      context: ./docker/roadrunner
+      dockerfile: Dockerfile
+    user: "${DOCKER_UID}:${DOCKER_GID}"
+    depends_on:
+      - postgres
+    container_name: ${APP_NAME}-roadrunner
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    volumes:
+      - ${WORKER_PATH}:/var/www/worker
+      - ${SRC_PATH}:/var/www/src
+      - ./docker/roadrunner/etc:/etc/roadrunner
+    networks:
+      - backend-network
+  composer:
+    build:
+      context: ./docker/composer
+      dockerfile: Dockerfile
+    user: "${DOCKER_UID}:${DOCKER_GID}"
+    container_name: ${APP_NAME}-composer
+    command: install
+    volumes:
+      - ${SRC_PATH}:/app/src
+      - ${WORKER_PATH}:/app/worker
+  postgres:
+    container_name: ${APP_NAME}-postgres
+    image: postgres
+    restart: always
+    build: ./docker/postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - $APP_DB_EXTERNAL_PORT:$APP_DB_PORT
+    environment:
+      - POSTGRES_DB=${APP_DB_DATABASE}
+      - POSTGRES_USER=${APP_DB_USER}
+      - POSTGRES_PASSWORD=${APP_DB_PASSWORD}
+    networks:
+      - backend-network

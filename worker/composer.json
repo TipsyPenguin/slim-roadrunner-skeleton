@@ -1,0 +1,42 @@
+{
+    "name": "TipsyPenguin/slim-roadrunner-skeleton",
+    "description": "Slim Framework 4 Roadrunner Skeleton Application",
+    "keywords": [
+        "slim",
+        "roadrunner",
+        "skeleton"
+    ],
+    "homepage": "https://github.com/TipsyPenguin/slim-roadrunner-skeleton",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksey Omelchenko",
+            "email": "ladenmc@gmail.com",
+            "homepage": "https://github.com/TipsyPenguin"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "spiral/roadrunner": "^1.3",
+        "zendframework/zend-diactoros": "^2.0"
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@init-config"
+        ],
+        "init-config": [
+            "php -r \"file_exists('etc/roadrunner/.rr.yaml') || copy('containers/roadrunner/config/.rr.yaml', 'etc/roadrunner/.rr.yaml');\""
+        ],
+        "reset-workers": [
+            "docker exec roadrunner rr -c /etc/roadrunner/.rr.yaml http:reset"
+        ],
+        "show-workers": [
+            "docker exec roadrunner rr -c /etc/roadrunner/.rr.yaml http:workers -i"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
