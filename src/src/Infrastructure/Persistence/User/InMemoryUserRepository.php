@@ -22,7 +22,7 @@ class InMemoryUserRepository implements UserRepository
     public function __construct(array $users = null)
     {
         $this->users = $users ?? [
-                1 => new User(1, $_ENV['APP_DB_HOST'] ?? 'yo', 'Bill', 'Gates'),
+                1 => new User(1, 'bill.gates' ?? 'yo', 'Bill', 'Gates'),
                 2 => new User(2, 'steve.jobs', 'Steve', 'Jobs'),
                 3 => new User(3, 'mark.zuckerberg', 'Mark', 'Zuckerberg'),
                 4 => new User(4, 'evan.spiegel', 'Evan', 'Spiegel'),
